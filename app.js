@@ -2,10 +2,14 @@ const express = require("express");
 require("express-async-errors");
 const flash = require("connect-flash")
 
+const csrf = require("csurf");
+
 const auth = require("./middleware/auth");
 const secretWordRouter = require("./routes/secretWord");
 const cookieParser = require("cookie-parser");
-const csrf = require("csurf");
+const notesRouter = require('./routes/notes')
+const methodOverride = require("method-override");
+
 
 
 
@@ -70,6 +74,7 @@ app.use(passport.session());
 app.use(require("./middleware/storeLocals"));
 
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
 
 
 app.use(cookieParser(process.env.SESSION_SECRET));
@@ -103,14 +108,16 @@ app.use("/sessions", require("./routes/sessionRoutes"));
 //let secretWord = "syzygy";
 
 
+app.use('/notes', auth, notesRouter)
+
+
 app.use("/secretWord", auth, secretWordRouter);
 
-app.use("/secretWord", secretWordRouter);
 
 
 app.use((err, req, res, next) => {
-  res.status(500).send(err.message);
-  console.log(err);
+    console.log(err);
+    res.status(500).send(err.message);
 });
 
 const port = process.env.PORT || 3000;

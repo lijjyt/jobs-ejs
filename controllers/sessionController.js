@@ -4,11 +4,11 @@ const parseVErr = require("../utils/parseValidationErr");
 const registerShow = (req, res) => {
   res.render("register");
 };
-    
+
 const registerDo = async (req, res, next) => {
   if (req.body.password != req.body.password1) {
     req.flash("error", "The passwords entered do not match.");
-    res.render("register");
+    res.render("register", {errors: req.flash.errors});
   }
   try {
     await User.create(req.body);

@@ -1,0 +1,39 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/header.ejs") %>
+<h2>Notes List</h2>
+
+<a href="/notes/create">
+  <button type="button">Create New</button>
+</a>
+
+<table id="notes-table">
+  <tr id="notes-table-header">
+    <th>Title</th>
+    <th>Note</th>
+    <th>Tag</th>
+    <th colspan="2"></th>
+  </tr>
+  <% if (notes && notes.length) { %>
+    <% notes.forEach((note) => { %>
+      <tr>
+        <td><%= note.title %></td>
+        <td><%= note.note %></td>
+        <td><%= note.tag %></td>
+        <td>
+            <a href="/notes/edit/<%= note._id %>">
+            <button type="button">edit</button>
+            </a>
+        </td>
+        <td>
+            <form method="POST" action="/notes/delete/<%= note._id %>?_method=DELETE" style="display: inline">
+            <button type="submit">delete</button>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  <% } %>
+</table>
+
+
+<%- include("partials/footer.ejs") %>

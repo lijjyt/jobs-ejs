@@ -7,7 +7,7 @@ const {
   registerShow,
   registerDo,
   logoff,
-} = require("../controller/sessionController");
+} = require("../controllers/sessionController");
 
 router.route("/register").get(registerShow).post(registerDo);
 router
@@ -18,7 +18,8 @@ router
     successRedirect: "/",
     failureRedirect: "/sessions/logon",
     failureFlash: true,
-    })
+    }),
+    
   );
 router.route("/logoff").post(logoff);
 
