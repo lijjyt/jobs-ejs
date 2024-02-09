@@ -1,0 +1,23 @@
+    <%- include("partials/head.ejs") %>
+    <%- include("partials/header.ejs") %>
+
+    <%= console.log('CSRF Token:', csrfToken) %>
+
+
+    <form method="POST" action="<%= note ? '/notes/update/' + note._id : '/notes' %>" style="display: inline" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" value="<%= note ? note.title : '' %>" required>
+    
+        <label for="noteContent">Note:</label>
+        <textarea id="noteContent" name="note" rows="4" required><%= note ? note.note : '' %></textarea>
+    
+        <label for="tag">Tag:</label>
+        <input type="text" id="tag" name="tag" value="<%= note ? note.tag : '' %>" maxlength="20">
+
+
+        <button type="submit"><%= note ? 'Update' : 'Create' %> Note</button>
+
+    </form>
+
